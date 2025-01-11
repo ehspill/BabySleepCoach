@@ -68,7 +68,7 @@ with open(os.getenv("APP_DIR") + '/user_defined_crop_area.txt', 'r', encoding="u
     crop_area = f.read()
     focusRegionArr = crop_area.split(',')
     print('reading focusRegionArr: ', focusRegionArr)
-    if focusRegionArr[0] is '':
+    if focusRegionArr[0] == '':
         focus_bounding_box = (None,None,None,None)
     else:
         x = int(float(focusRegionArr[0]))
