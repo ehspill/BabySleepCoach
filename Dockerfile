@@ -20,6 +20,7 @@ COPY . .
 RUN cd webapp && yarn install && cd ..
 
 WORKDIR /usr/app/babysleepcoach
-RUN chmod +x start_docker.sh
+RUN chmod +x /usr/app/babysleepcoach/start_docker.sh
+RUN ls -l /usr/app/babysleepcoach
 
 ENTRYPOINT ["bash", "start_docker.sh"]
