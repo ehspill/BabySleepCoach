@@ -3,16 +3,20 @@ FROM node:slim
 WORKDIR /usr/app/babysleepcoach
 EXPOSE 80
 
-#COPY .start_docker.sh /usr/app/babysleepcoach/
+#Copy the pip build files in first
+COPY ./requirements.txt .
+
+# Install required packages
+ENV PIP_BREAK_SYSTEM_PACKAGES 1
+RUN apt-get update && apt-get install python3-pip libgl1 libglib2.0-0  -y
+RUN pip3 install --upgrade pip
+RUN pip3 install -r requirements.txt
+
+# Copy in the rest of the files
 COPY . .
+
+RUN cd webapp && yarn install && cd ..
+
 WORKDIR /usr/app/babysleepcoach
-RUN chmod +x /usr/app/babysleepcoach/start_docker.sh
-RUN ls -l /usr/app/babysleepcoach
 
-#ENTRYPOINT ["bash", "start_docker.sh"]
-ENTRYPOINT ["/bin/bash"] 
-#CMD ["/usr/app/babysleepcoach/start_docker.sh"]
-CMD ["-c", "while :; do sleep 10; done"]
-
-#ENTRYPOINT ["/bin/bash"] 
-#CMD ["/usr/app/babysleepcoach/start_docker.sh"]
+ENTRYPOINT ["bash", "start_docker.sh"]
